@@ -19,3 +19,18 @@ screen = pygame.display.set_mode(size)
 # Set title
 pygame.display.set_caption("Connect Four")
 
+
+# board drawing
+def draw_board(window):
+    pass
+
+
+game_over = False
+
+while not game_over:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            game_over = True
+        # Mouse clicking
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pass
