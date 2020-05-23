@@ -22,7 +22,15 @@ pygame.display.set_caption("Connect Four")
 
 # board drawing
 def draw_board(window):
-    pass
+    for c in range(COL_COUNT):
+        for r in range(ROW_COUNT):
+            # draw rectangle for base of board
+            pygame.draw.rect(window, (153, 153, 255),
+                             (c * SQUARESIZE, r * SQUARESIZE + SQUARESIZE, SQUARESIZE, SQUARESIZE))
+            # draw circle
+            pygame.draw.circle(window, (0, 255, 128), (
+            c * SQUARESIZE + int(SQUARESIZE / 2), r * SQUARESIZE + SQUARESIZE + int(SQUARESIZE / 2)),
+                               int(SQUARESIZE / 2 - 6))
 
 
 game_over = False
@@ -34,3 +42,5 @@ while not game_over:
         # Mouse clicking
         if event.type == pygame.MOUSEBUTTONDOWN:
             pass
+    draw_board(screen)
+    pygame.display.update()
