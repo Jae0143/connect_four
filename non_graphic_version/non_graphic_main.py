@@ -37,31 +37,33 @@ def print_board(board_main):
 
 # Check for winning move
 def winning_move(board_main, player_piece):
-    for c in range(COL_COUNT-(COL_COUNT - 4)):
+    for c in range(COL_COUNT - (COL_COUNT - 4)):
         for r in range(ROW_COUNT):
             # Check horizontal location
-            if board_main[r][c] == player_piece and board_main[r][c + 1] == player_piece and board_main[r][c + 2] == player_piece and board_main[r][c + 3] == player_piece:
+            if board_main[r][c] == player_piece and board_main[r][c + 1] == player_piece and board_main[r][
+                c + 2] == player_piece and board_main[r][c + 3] == player_piece:
                 return True
 
     for c in range(COL_COUNT):
         # prevents from going out of index
-        for r in range(ROW_COUNT-(ROW_COUNT - 4)):
+        for r in range(ROW_COUNT - (ROW_COUNT - 4)):
             # Check vertical
             if board_main[r][c] == player_piece and board_main[r + 1][c] == player_piece and board_main[r + 2][
                 c] == player_piece and board_main[r + 3][c] == player_piece:
                 return True
 
     # Positive slope diagonal
-    for c in range (COL_COUNT - 3):
-        for r in range(ROW_COUNT -3):
-            if board_main[r][c] == player_piece and board_main[r + 1][c + 1] == player_piece and board_main[r + 2][c + 2] == player_piece and board_main[r + 3][c + 3] == player_piece:
+    for c in range(COL_COUNT - 3):
+        for r in range(ROW_COUNT - 3):
+            if board_main[r][c] == player_piece and board_main[r + 1][c + 1] == player_piece and board_main[r + 2][
+                c + 2] == player_piece and board_main[r + 3][c + 3] == player_piece:
                 return True
     # Negative slope diagonal
     for c in range(3, COL_COUNT):
         for r in range(ROW_COUNT - 3):
-            if board_main[r][c] == player_piece and board_main[r + 1][c - 1] == player_piece and board_main[r + 2][c - 2] == player_piece and board_main[r + 3][c - 3] == player_piece:
+            if board_main[r][c] == player_piece and board_main[r + 1][c - 1] == player_piece and board_main[r + 2][
+                c - 2] == player_piece and board_main[r + 3][c - 3] == player_piece:
                 return True
-
 
 
 game_over = False
