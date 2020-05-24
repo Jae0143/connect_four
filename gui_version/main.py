@@ -13,13 +13,16 @@ COL_COUNT = 7
 SQUARESIZE = 100
 width = SQUARESIZE * COL_COUNT
 # giving extra space at the top for displaying the ball
-height = SQUARESIZE  * (ROW_COUNT + 1)
+height = SQUARESIZE * (ROW_COUNT + 1)
 size = (width, height)
 
 screen = pygame.display.set_mode(size)
 
 # Set title
 pygame.display.set_caption("Connect Four")
+
+# font
+over_font = pygame.font.Font("ARCADECLASSIC.TTF", 75)
 
 
 # board drawing
@@ -38,12 +41,15 @@ def draw_board(window, board):
         for r in range(ROW_COUNT):
             if board[r][c] == 1:
                 pygame.draw.circle(window, (204, 0, 102), (
-                    c * SQUARESIZE + int(SQUARESIZE / 2), height - r * SQUARESIZE -SQUARESIZE + int(SQUARESIZE / 2 - 5)),
-                                   int(SQUARESIZE / 2 -2))
+                    c * SQUARESIZE + int(SQUARESIZE / 2),
+                    height - r * SQUARESIZE - SQUARESIZE + int(SQUARESIZE / 2 - 5)),
+                                   int(SQUARESIZE / 2 - 2))
             elif board[r][c] == 2:
                 pygame.draw.circle(window, (0, 0, 204), (
-                    c * SQUARESIZE + int(SQUARESIZE / 2), height - r * SQUARESIZE -SQUARESIZE + int(SQUARESIZE / 2 - 5)),
-                                   int(SQUARESIZE / 2 -2))
+                    c * SQUARESIZE + int(SQUARESIZE / 2),
+                    height - r * SQUARESIZE - SQUARESIZE + int(SQUARESIZE / 2 - 5)),
+                                   int(SQUARESIZE / 2 - 2))
+    pygame.display.update()
 
 
 def create_board():
@@ -117,13 +123,21 @@ def create_board():
 
 
 board = create_board()
-
 while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_over = True
         # Mouse clicking
+        if event.type == pygame.MOUSEMOTION:
+            pygame.draw.rect(screen, (0, 0, 0), (0, 0, width, SQUARESIZE))
+            posx = event.pos[0]
+            if turn == 0:
+                pygame.draw.circle(screen, (204, 0, 102), (posx, int(SQUARESIZE / 2)), int(SQUARESIZE / 2 - 2))
+            else:
+                pygame.draw.circle(screen, (0, 0, 204), (posx, int(SQUARESIZE / 2)), int(SQUARESIZE / 2 - 2))
+
         if event.type == pygame.MOUSEBUTTONDOWN:
+            # reset screen to black
             if turn == 0:
                 posx = event.pos[0]
                 col = int(math.floor(posx / SQUARESIZE))
@@ -132,8 +146,11 @@ while not game_over:
                     drop_piece(board, row, col, 1)
                     # Consequence of winning
                     if winning_move(board, 1):
-                        print("Player 1 wins ")
+                        screen.fill((0, 0, 0))
+                        winning = over_font.render("Player 1 Wins", 1, (255, 255, 255))
+                        screen.blit(winning, (40, 10))
                         game_over = True
+
             else:
                 posx = event.pos[0]
                 col = int(math.floor(posx / SQUARESIZE))
@@ -142,10 +159,15 @@ while not game_over:
                     drop_piece(board, row, col, 2)
                     # Consequence of winning
                     if winning_move(board, 2):
-                        print("Player 2 wins ")
+                        screen.fill((0, 0, 0))
+                        winning = over_font.render("Player 2 Wins", 1, (255, 255, 255))
+                        screen.blit(winning, (40, 10))
                         game_over = True
-
             turn += 1
             turn = turn % 2
-    draw_board(screen, board)
-    pygame.display.update()
+
+
+        draw_board(screen, board)
+
+        if game_over:
+            pygame.time.wait(3000)
